@@ -1,28 +1,42 @@
 import requests
 import json
-from dotenv import load_dotenv
+
 import os
 
+from dotenv import load_dotenv
 
 load_dotenv()
 
 url = os.getenv("url")
+token = os.getenv("token")
 end_point = f"{url}/vs/GetPatientInfo"
-hosname = "โรงพยาบาลทดสอบ"
-hoscode = "99999"
-company_name = "TN Network"
-machine_name = "opd01"
+hospital_code = os.getenv("hospital_code")
+hospital_name = os.getenv("hospital_name")
+company_name = os.getenv("company_name")
+machine_name = os.getenv("machine_name")
 
 
-def get_pt_info(id, token):
+def get_pt_info(id):
     headers = {"Authorization": f"Bearer {token}", "Content-Type": "application/json"}
 
     if len(id) == 13:
-        payload = {"hospital_code": hoscode, "hospital_name": hosname, "cid": id}
+        payload = {
+            "hospital_code": hospital_code,
+            "hospital_name": hospital_name,
+            "cid": id,
+        }
     elif len(id) == 9:
-        payload = {"hospital_code": hoscode, "hospital_name": hosname, "hn": id}
+        payload = {
+            "hospital_code": hospital_code,
+            "hospital_name": hospital_name,
+            "hn": id,
+        }
     elif len(id) == 12:
-        payload = {"hospital_code": hoscode, "hospital_name": hosname, "vn": id}
+        payload = {
+            "hospital_code": hospital_code,
+            "hospital_name": hospital_name,
+            "vn": id,
+        }
     else:
         return "Invalid ID"
 
@@ -32,19 +46,16 @@ def get_pt_info(id, token):
 
 
 if __name__ == "__main__":
-    token = os.getenv("token")
 
-    CID = "3101600035349"
+    CID = "3101600035349"   
     HN1 = "570000084"
     VN = "680819131347"
 
     CID = "1709900185554"
     HN2 = "570000607"
 
-   
-    resp1 = get_pt_info(HN1, token)
+    resp1 = get_pt_info(HN1)
     print(resp1.get("result"))
 
-    resp2 = get_pt_info(HN2, token)
+    resp2 = get_pt_info(HN2)
     print(resp2.get("result"))
-    

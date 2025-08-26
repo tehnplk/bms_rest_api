@@ -1,12 +1,22 @@
 import requests
 import json
 from datetime import datetime, timezone, timedelta
-from dotenv import load_dotenv
+
 import os
 
-from get_pt import get_pt_info
+from dotenv import load_dotenv
 
 load_dotenv()
+
+url = os.getenv("url")
+token = os.getenv("token")
+hospital_code = os.getenv("hospital_code")
+hospital_name = os.getenv("hospital_name")
+company_name = os.getenv("company_name")
+machine_name = os.getenv("machine_name")
+
+
+from get_pt import get_pt_info
 
 
 def post_data(id, token):
@@ -16,6 +26,7 @@ def post_data(id, token):
 
     url = os.getenv("url")
     end_point = f"{url}/vs/PostVitalsignService"
+
     hosname = "โรงพยาบาลทดสอบ"
     hoscode = "99999"
     company_name = "TN Network"
@@ -47,12 +58,12 @@ def post_data(id, token):
             "machine_name": machine_name,
         },
         "patient": {
-            "cid": pt.get("cid"),
-            "hn": pt.get("hn"),
+            "cid": pt.get("cid",""),
+            "hn": pt.get("hn",""),
             "vn": pt.get("vn", ""),
-            "prefix": pt.get("prefix"),
-            "first_name": pt.get("first_name"),
-            "last_name": pt.get("last_name"),
+            "prefix": pt.get("prefix",""),
+            "first_name": pt.get("first_name",""),
+            "last_name": pt.get("last_name",""),
             "patient_type": "O",
         },
         "vital_signs": {

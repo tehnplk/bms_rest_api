@@ -1,6 +1,8 @@
 from flask import Flask, request, jsonify
 import socket
 from datetime import datetime
+from dotenv import load_dotenv
+load_dotenv()
 
 app = Flask(__name__)
 

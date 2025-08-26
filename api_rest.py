@@ -61,7 +61,7 @@ async def post_data_bmi():
 
 @app.route("/patient/get_patient_by_hn/<hn>", methods=["GET"])
 def get_hn(hn):
-    if os.getenv("test") == "1":
+    if os.getenv("test") == "yes":
         data = {
             "cid": "3101600035300",
             "hn": "570000084",
@@ -95,7 +95,7 @@ def get_hn(hn):
 
 @app.route("/patient/get_patient_by_vn/<vn>", methods=["GET"])
 def get_vn(vn):
-    if os.getenv("test") == "1":
+    if os.getenv("test") == "yes":
         data = {
             "cid": "3101600035300",
             "hn": "570000084",
@@ -129,7 +129,7 @@ def get_vn(vn):
 
 @app.route("/patient/get_patient_by_cid/<cid>", methods=["GET"])
 def get_cid(cid):
-    if os.getenv("test") == "1":
+    if os.getenv("test") == "yes":
         data = {
             "cid": "3101600035300",
             "hn": "570000084",
@@ -163,7 +163,7 @@ def get_cid(cid):
 
 @app.route("/patient/get_patient_by_an/<an>", methods=["GET"])
 def get_an(an):
-    if os.getenv("test") == "1":
+    if os.getenv("test") == "yes":
         data = {
             "cid": "3101600035300",
             "hn": "570000084",

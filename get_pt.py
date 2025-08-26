@@ -47,15 +47,9 @@ def get_pt_info(id):
 
 if __name__ == "__main__":
 
-    CID = "3101600035349"   
-    HN1 = "570000084"
+    CID = "3101600035300"   
+    HN = "570000000"
     VN = "680819131347"
-
-    CID = "1709900185554"
-    HN2 = "570000607"
-
-    resp1 = get_pt_info(HN1)
-    print(resp1.get("result"))
-
-    resp2 = get_pt_info(HN2)
-    print(resp2.get("result"))
+    
+    resp = get_pt_info(HN)
+    print(resp.get("result"))

@@ -38,18 +38,20 @@ def get_pt_info(id):
             "vn": id,
         }
     else:
-        return "Invalid ID"
+        print("Invalid ID should be 13, 9, or 12 characters long")
+        return {"result": "Invalid ID should be 13, 9, or 12 characters long"}
 
     response = requests.get(end_point, headers=headers, params=payload)
+    print(response.json())
     # json.dumps(response.json(), indent=4, ensure_ascii=False)
     return response.json()
 
 
 if __name__ == "__main__":
 
-    CID = "3101600035300"   
+    CID = "3101600035300"
     HN = "570000000"
     VN = "680819131347"
-    
+
     resp = get_pt_info(HN)
     print(resp.get("result"))

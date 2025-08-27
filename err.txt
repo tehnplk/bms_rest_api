@@ -1,0 +1,22 @@
+post_data_bmi {'hn': '777777777', 'cid': '', 'fullname': 'น.ส. ทดสอบ ระบบ 7', 'vn': '680827092335', 'data': {'dep': '001', 'staff': 'nurse_opd', 'machine': 'Smart Connect', 'tp': 36.3, 'bps': 148, 'bpd': 96, 'pulse': 137, 'height': 174.5, 'weight': 86.3, 'bmi': 28.3}}
+{'endpointPort': '8555', 'message': 'OK', 'messageCode': 200, 'requestTime': '2025-08-27T13:05:28.208963', 'result': {'birth_date': 'Tue, 08 Mar 2005 00:00:00 GMT', 'first_name': 'ทดสอบ', 'hn': '777777777', 'hospital_code': '10673', 'last_name': 'ระบบ 7', 'prefix': 'น.ส.', 'vn': '680827092335'}}
+127.0.0.1 - - [27/Aug/2025 13:05:28] "POST /bmi/post_data_bmi HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "C:\Users\Windows\AppData\Roaming\Python\Python312\site-packages\flask\app.py", line 1536, in __call__
+    return self.wsgi_app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Windows\AppData\Roaming\Python\Python312\site-packages\flask\app.py", line 1514, in wsgi_app
+    response = self.handle_exception(e)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Windows\AppData\Roaming\Python\Python312\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Windows\AppData\Roaming\Python\Python312\site-packages\flask\app.py", line 920, in full_dispatch_request
+    return self.finalize_request(rv)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Windows\AppData\Roaming\Python\Python312\site-packages\flask\app.py", line 939, in finalize_request
+    response = self.make_response(rv)
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Windows\AppData\Roaming\Python\Python312\site-packages\flask\app.py", line 1249, in make_response
+    raise TypeError(
+TypeError: The view function did not return a valid response. The return type must be a string, dict, list, tuple with headers or status, Response instance, or WSGI callable, but it was a Response.

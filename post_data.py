@@ -78,6 +78,6 @@ def post_data(data):
     }
     if os.getenv("test") != "yes":
         response = requests.post(end_point, headers=headers, json=payload)
-        return response
+        return response.json()
     else:
         return {"status": "test-ok"}

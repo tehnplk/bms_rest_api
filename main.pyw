@@ -51,7 +51,7 @@ def post_data_bmi():
     data = request.json
     print("post_data_bmi", data)
     resp = post_data(data)
-    return jsonify(resp), 200
+    return resp, 200
 
 
 @app.route("/patient/get_patient_by_hn/<hn>", methods=["GET"])

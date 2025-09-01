@@ -1,26 +1,51 @@
 import os
-from flask import Flask, request, jsonify
-from datetime import datetime,timezone, timedelta
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
+from datetime import datetime, timezone, timedelta
+from typing import Optional, Dict, Any
+import uvicorn
 
 from get_pt import get_pt_info
 from post_data import post_data
-
 
 from dotenv import load_dotenv
 
 load_dotenv()
 
-app = Flask(__name__)
+app = FastAPI(title="BMS REST API", version="1.0.0")
 
+# Add CORS middleware
+test = os.getenv("test", "no")
 
-def log_error(error_msg, error):
-    """Log error to both console and file"""
-    print(error_msg, error)
-    # Write error to file as append
-    with open('err.txt', 'a', encoding='utf-8') as f:
-        f.write(f'{error_msg}: {error}\n')
+# Add CORS middleware if not in test mode
+if test != "yes":
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
+# Pydantic models for request bodies
+class PostDataRequest(BaseModel):
+    hn: str
+    data: Dict[str, Any]
 
+class PostDataBPRequest(BaseModel):
+    # Define the structure based on your actual data
+    pass
+
+class PostDataTPRequest(BaseModel):
+    # Define the structure based on your actual data
+    pass
+
+class PostDataBMIRequest(BaseModel):
+    hn: str
+    data: Dict[str, Any]
+
+# Error data
 data_err = {
     "cid": "เกิดข้อผิดพลาด",
     "hn": "เกิดข้อผิดพลาด",
@@ -34,36 +59,29 @@ data_err = {
     "birth": "เกิดข้อผิดพลาด",
 }
 
-
-@app.route("/tp/post_data_tp", methods=["POST"])
-def post_data_tp():
-    data = request.json
+@app.post("/tp/post_data_tp")
+async def post_data_tp(data: PostDataTPRequest):
     print("post_data_tp", data)
-    return jsonify({"status": "ok"}), 200
+    return {"status": "ok"}
 
+@app.post("/bp/post_data_bp_list")
+async def post_data_bp_list():
+    return {"status": "ok"}
 
-@app.route("/bp/post_data_bp_list", methods=["POST"])
-def post_data_bp_list():
-    return jsonify({"status": "ok"}), 200
-
-
-@app.route("/bp/post_data_bp", methods=["POST"])
-def post_data_bp():
-    data = request.json
+@app.post("/bp/post_data_bp")
+async def post_data_bp(data: PostDataBPRequest):
     print("post_data_bp", data)
-    return jsonify({"status": "ok"}), 200
+    return {"status": "ok"}
 
-
-@app.route("/bmi/post_data_bmi", methods=["POST"])
-def post_data_bmi():
-    data = request.json
+@app.post("/bmi/post_data_bmi")
+async def post_data_bmi(request: PostDataBMIRequest):
+    data = {"hn": request.hn, "data": request.data}
     print("post_data_bmi", data)
     resp = post_data(data)
-    return jsonify(resp), 200
+    return resp
 
-
-@app.route("/patient/get_patient_by_hn/<hn>", methods=["GET"])
-def get_hn(hn):
+@app.get("/patient/get_patient_by_hn/{hn}")
+async def get_hn(hn: str):
     if os.getenv("test") == "yes":
         data = {
             "cid": "3101600035300",
@@ -94,13 +112,12 @@ def get_hn(hn):
                 "birth": "1980-04-18",
             }
         except Exception as e:
-            log_error('err_get_pt', e)
+            print('err_get_pt', e)
             data = data_err
-    return jsonify(data), 200
+    return data
 
-
-@app.route("/patient/get_patient_by_vn/<vn>", methods=["GET"])
-def get_vn(vn):
+@app.get("/patient/get_patient_by_vn/{vn}")
+async def get_vn(vn: str):
     if os.getenv("test") == "yes":
         data = {
             "cid": "3101600035300",
@@ -131,13 +148,12 @@ def get_vn(vn):
                 "birth": "1980-04-18",
             }
         except Exception as e:
-            log_error('err_get_pt', e)
+            print('err_get_pt', e)
             data = data_err
-    return jsonify(data), 200
+    return data
 
-
-@app.route("/patient/get_patient_by_cid/<cid>", methods=["GET"])
-def get_cid(cid):
+@app.get("/patient/get_patient_by_cid/{cid}")
+async def get_cid(cid: str):
     if os.getenv("test") == "yes":
         data = {
             "cid": "1111111111111",
@@ -168,11 +184,10 @@ def get_cid(cid):
                 "birth": "1980-04-18",
             }
         except Exception as e:
-            log_error('err_get_pt', e)
+            print('err_get_pt', e)
             data = data_err
 
-    return jsonify(data), 200
-
+    return data
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=3000)
+    uvicorn.run(app, host="0.0.0.0", port=3000, log_level="info")

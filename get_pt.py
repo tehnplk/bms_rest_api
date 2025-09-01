@@ -19,27 +19,30 @@ machine_name = os.getenv("machine_name")
 def get_pt_info(id):
     headers = {"Authorization": f"Bearer {token}", "Content-Type": "application/json"}
 
+    if len(id) not in (13, 12, 9):
+        print("Invalid_ID")
+        return {"result": "Invalid_ID"}
+
     if len(id) == 13:
         payload = {
             "hospital_code": hospital_code,
             "hospital_name": hospital_name,
             "cid": id,
         }
-    elif len(id) == 9:
-        payload = {
-            "hospital_code": hospital_code,
-            "hospital_name": hospital_name,
-            "hn": id,
-        }
-    elif len(id) == 12:
+
+    if len(id) == 12:
         payload = {
             "hospital_code": hospital_code,
             "hospital_name": hospital_name,
             "vn": id,
         }
-    else:
-        print("Invalid ID should be 13, 9, or 12 characters long")
-        return {"result": "Invalid ID should be 13, 9, or 12 characters long"}
+
+    if len(id) == 9:
+        payload = {
+            "hospital_code": hospital_code,
+            "hospital_name": hospital_name,
+            "hn": id,
+        }
 
     response = requests.get(end_point, headers=headers, params=payload)
     print(response.json())
